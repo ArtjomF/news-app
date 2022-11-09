@@ -3,6 +3,7 @@ import Card from "react-bootstrap/Card";
 import noImage from '../dummy-post-horisontal.jpg';
 import NewsModalComponent from "./NewsModal";
 
+
 function NewsCardComponent() {
 
   const [show, setShow] = useState(false);
