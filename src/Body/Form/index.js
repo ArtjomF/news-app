@@ -5,13 +5,15 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup'
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
+import { getEverything } from '../../Services/apiServices';
 import 'react-datepicker/dist/react-datepicker.css';
 
-function FormComponent({ show, handleClose }) {
+function FormComponent({ show, handleClose, setFormResponse}) {
 
     const [startDateFrom, setStartDateFrom] = useState(new Date());
     const [startDateTo, setStartDateTo] = useState(new Date());
-    const dateFormat = "dd-MM-yyyy";
+    const dateFormat = "dd.MM.yyyy";
+    
 
     const languages = [
         { label: 'English', code: 'en' },
@@ -25,18 +27,25 @@ function FormComponent({ show, handleClose }) {
         return str[0].toUpperCase() + str.substring(1);
     }
 
-    function handleSubmit(event) {
+    async function handleSubmit(event) {
         event.preventDefault();
-
-        const data = {
+        
+        const data = { 
             q: event.target.q.value,
-            from: moment(event.target.from.value, dateFormat).format("YYYY-MM-DDT00:00:00.000"),
-            to: moment(event.target.to.value, dateFormat).format("YYYY-MM-DDT23:59:59:999"),
+            from: moment(startDateFrom).format("YYYY-MM-DDT00:00:00.000"),
+            to: moment(startDateTo).format("YYYY-MM-DDT23:59:59:999"),
             language: event.target.language.value,
             searchIn: [...event.target.searchIn].filter(input => input.checked).map(input => input.value).join(','),
         };
-
-        console.log(data);
+          
+        if(moment(data.from).isAfter(data.to)) {
+            alert("Wrong data from");
+            return;
+        }
+        
+        const response = await getEverything(data);
+        const responseData = await response.json(); 
+        setFormResponse(responseData);
     }
 
     return (
@@ -67,7 +76,7 @@ function FormComponent({ show, handleClose }) {
                     ))}
                     <Form.Group className="mb-3">
                         <Form.Label>From - to</Form.Label>
-                        <InputGroup className="mb-3">
+                        <InputGroup className="mb-3 flex-nowrap">
                             <DatePicker
                                 className="form-control"
                                 selected={startDateFrom}

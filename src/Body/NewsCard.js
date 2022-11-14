@@ -2,35 +2,36 @@ import { useState } from "react";
 import Card from "react-bootstrap/Card";
 import noImage from '../dummy-post-horisontal.jpg';
 import NewsModalComponent from "./NewsModal";
+import moment from "moment";
 
 
-function NewsCardComponent() {
+function NewsCardComponent({ article }) {
 
   const [show, setShow] = useState(false);
 
   return (
     <>
       <Card onClick={() => setShow(true)}>
-        <Card.Img variant="top" src={noImage} />
+        <Card.Img variant="top" src={article.urlToImage || noImage} />
         <Card.Body>
-          <Card.Title>Card title</Card.Title>
-          <Card.Subtitle className="mb-2 text-muted">Source Name</Card.Subtitle>
-          <Card.Text>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
-            posuere erat a ante
-
+          <Card.Title>{article.title}</Card.Title>
+          <Card.Subtitle className="mb-2 text-muted">{article.source.name}</Card.Subtitle>
+          <Card.Text dangerouslySetInnerHTML={{ __html: article.description}}>
           </Card.Text>
-          <blockquote className="blockquote mb-0">
-            <footer className="blockquote-footer">
-              <cite title="Author">Author</cite>
-            </footer>
-          </blockquote>
+          {article.author ? (
+            <blockquote className="blockquote mb-0">
+              <footer className="blockquote-footer">
+                <cite title="Author">{article.author}</cite>
+              </footer>
+            </blockquote>
+          ) : ''}
+
         </Card.Body>
         <Card.Footer>
-          <small className="text-muted">Published At</small>
+          <small className="text-muted">{moment(article.publishedAt).format('DD.MM.YYYY')}</small>
         </Card.Footer>
       </Card>
-      <NewsModalComponent show={show} setShow={setShow}/>
+      <NewsModalComponent show={show} setShow={setShow} />
     </>
   );
 }

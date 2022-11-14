@@ -7,9 +7,9 @@ function PaginationComponent() {
 
   return (
     <Pagination className="mt-4  justify-content-end">
-      <Pagination.Prev onClick={() => setPage(page - 1)}/>
-     <Pagination.Item disabled>{page} / 140</Pagination.Item>
-     <Pagination.Next onClick={() => setPage(page + 1)}/>
+      <Pagination.Prev disabled={page <= 1} onClick={() => setPage(page - 1)}/>
+     <Pagination.Item disabled>{page} / 14</Pagination.Item>
+     <Pagination.Next disabled={page >= 14} onClick={() => setPage(page + 1)}/>
      </Pagination>
   );
 }
