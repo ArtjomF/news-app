@@ -33,7 +33,7 @@ function FormComponent({ show, handleClose, setFormResponse}) {
         const data = { 
             q: event.target.q.value,
             from: moment(startDateFrom).format("YYYY-MM-DDT00:00:00.000"),
-            to: moment(startDateTo).format("YYYY-MM-DDT23:59:59:999"),
+            to: moment(startDateTo).format("YYYY-MM-DDT23:59:59.999"),
             language: event.target.language.value,
             searchIn: [...event.target.searchIn].filter(input => input.checked).map(input => input.value).join(','),
         };

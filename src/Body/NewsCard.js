@@ -31,7 +31,7 @@ function NewsCardComponent({ article }) {
           <small className="text-muted">{moment(article.publishedAt).format('DD.MM.YYYY')}</small>
         </Card.Footer>
       </Card>
-      <NewsModalComponent show={show} setShow={setShow} />
+      <NewsModalComponent show={show} setShow={setShow} article={article}/>
     </>
   );
 }
