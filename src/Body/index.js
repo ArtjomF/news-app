@@ -6,33 +6,38 @@ import NewsCardComponent from './NewsCard';
 import FormComponent from './Form';
 import { getEverything } from '../Services/apiServices';
 import './News.scss';
-import { useDispatch } from 'react-redux';
-import{ setErrorMessage } from '../Services/stateService';
+import { useDispatch, useSelector } from 'react-redux';
+import{ setErrorMessage, setTotalResults } from '../Services/stateService';
 
-function NewsCroupComponent(props) {
+function NewsCroupComponent() {
+
     const [show, setShow] = useState(false);
     const [articles, setArticles] = useState([]);
+    
 
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
 
     const dispatch = useDispatch();
 
+    const searchParams = useSelector((state) => state.searchParams);
+
     useEffect(() => {
         (async function () {
             try {
-                const response = await getEverything(props);
+                const response = await getEverything(searchParams);
                 const responseData = await response.json();
                 if (responseData.status === 'error') {
                     throw responseData;
                 }
                 setArticles(responseData.articles);
+                dispatch(setTotalResults(responseData.totalResults));
             } catch (error) {
                 dispatch(setErrorMessage(error.message));
             }
 
         })();
-    }, [props, dispatch]);
+    }, [searchParams, dispatch]);
 
     return (
         <>
@@ -49,8 +54,8 @@ function NewsCroupComponent(props) {
             <FormComponent
                 show={show}
                 handleClose={handleClose}
-                setFormResponse={setArticles}
-                searchProps={props}
+                setArticles={setArticles}
+                searchProps={searchParams}
             />
         </>
     );
