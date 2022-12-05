@@ -1,3 +1,5 @@
+// redux eto biblioteka kotoraja pomogajet nam rabotat s sostojanijami
+//
 import { configureStore, createAction, createReducer } from "@reduxjs/toolkit";
 import moment from 'moment';
 

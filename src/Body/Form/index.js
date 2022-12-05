@@ -31,8 +31,19 @@ function FormComponent({ show, handleClose, searchProps }) {
     function capitalize(str) {
         return str[0].toUpperCase() + str.substring(1);
     }
-
+    
+    // Event/Sobytie - eto vzaimodejstvie mezdu polzovatelem i nashem prilozeniem
+    // Polzovatel 4to- to delajet v brauzere, brauzer lovit eti dvizenija i peredajot informaciju nashemu prilozeniju
+    // V zavisimosti ot trigerov nashe prilozenije obrabatyvajet polu4ennyje dannye
+    // Triggery byvajut raznye, naprimer triger pri nazatii knopki myshki, nazyvaetsja onClick
+    // Triggery vewajutsja na elementy za kotorymi my hotim sledit
+    // Triggery zapuskjut obrabot4iki 
+    // Obrabot4iki eto oby4nye funkcii
+    // Brauzer peredajot nasim obrabot4ikam polnyi ot4ot o deistvii/sobytii v vide objekta DOM 
+    // Glavnoe svojstvo etogo objekta javljatsja "target" v kotrom hranitsja info ob etom elemente nad kotorym proizoshlo sobytije
     async function handleSubmit(event) {
+        // prevenDefault eta funkcija zastovljaet prekratit vypolnjat izvestnoe dejstvie etogo sobytija 
+        // v nashem slu4ae eto zastavljet otmenit otpavku dannyh na server
         event.preventDefault();
         
         const data = { 

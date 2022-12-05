@@ -25,6 +25,14 @@ function NewsCroupComponent() {
 
     const searchParams = useSelector((state) => state.searchParams);
 
+    // useEffect eto React HOOK kotoryi zapuskaetsja posle togo kak pervyi render/otrisovka komponenta proizoshol
+    // useEffect prinimajet dva parametra
+    // 1 Funkcija kotoruju nuzno zapustit
+    // 2 massiv iz peremennyh ot kotoyh budet zaviset dalnejshaja rabota useEffecta
+    // vse vnewnii peremennye kotrye my ispolzuem v funkcii dolzny byt v massive v zavisimostej
+    // pri ljubyh izmennenijah etih zavisimostei useEffevt zapuskajetsja
+    // Pri izmenenii v komponente ne kasajushihsja zavisimostei useEffecta ne zapuskajut useEffect no komponent renderitsja
+    // poetomu v njim lu4she rabotat s zaprosami (danne API)
     useEffect(() => {
         if (lang && searchParams.language !== lang) {
             dispatch(setSearchParams({

@@ -4,7 +4,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 function ContactComponent() {
     return (
 
-        <Card style={{ width: '18rem' }}>
+        <Card style={{ width: '24rem' }}>
             <Card.Img variant="top" src="" />
             <Card.Body>
                 <Card.Title>Hello to everybody!</Card.Title>
