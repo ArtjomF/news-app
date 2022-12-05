@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -8,6 +8,7 @@ import moment from 'moment';
 import { useSelector, useDispatch } from 'react-redux';
 import { setErrorMessage, setSearchParams } from '../../Services/stateService';
 import 'react-datepicker/dist/react-datepicker.css';
+import { getSources } from '../../Services/apiServices';
 
 
 
@@ -15,6 +16,7 @@ function FormComponent({ show, handleClose, searchProps }) {
 
     const [startDateFrom, setStartDateFrom] = useState(new Date());
     const [startDateTo, setStartDateTo] = useState(new Date());
+    const [sources, setSources] = useState([]);
     const dateFormat = "dd.MM.yyyy";
     const pageSize = useSelector((state) => state.searchParams.pageSize)
     const dispatch = useDispatch();
@@ -32,6 +34,22 @@ function FormComponent({ show, handleClose, searchProps }) {
         return str[0].toUpperCase() + str.substring(1);
     }
 
+    useEffect(() => {
+        (async function () {
+            try {
+                const response = await getSources();
+                const responseData = await response.json();
+                if (responseData.status === 'error') {
+                    throw responseData;
+                }
+                setSources(responseData.sources);
+            } catch (error) {
+                dispatch(setErrorMessage(error.message));
+            }
+
+        })();
+    }, [setSources, dispatch]);
+
     async function handleSubmit(event) {
         event.preventDefault();
         
@@ -43,6 +61,7 @@ function FormComponent({ show, handleClose, searchProps }) {
             searchIn: [...event.target.searchIn].filter(input => input.checked).map(input => input.value).join(','),
             pageSize,
             page: 1,
+            sources: event.target.source.value,
         };  
 
         if(moment(data.from).isAfter(data.to)) {
@@ -104,6 +123,16 @@ function FormComponent({ show, handleClose, searchProps }) {
                                 dateFormat={dateFormat}
                             />
                         </InputGroup>
+                    </Form.Group>
+
+                    <Form.Group className="mb-3">
+                        <Form.Label>Select source</Form.Label>
+                        <Form.Select name="source" defaultValue={searchProps.source}>
+                            <option value=""></option>
+                            {sources.map((source) => (
+                                <option key={source.id} value={source.id}>{source.name}</option>
+                            ))}
+                        </Form.Select>
                     </Form.Group>
 
                     <Form.Group className="mb-3">

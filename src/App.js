@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
-import NewsCroupComponent from './Body';
+import BodyComponent from './Body';
 import PaginationComponent from './Footer';
 import HeaderComponent from './Header';
 import ErrorModalComponent from './ErrorModal';
@@ -14,25 +14,25 @@ function App() {
     <Container>
       <HeaderComponent />
       <Routes>
-        <Route path="/" element={
+        <Route path="/news-app" element={
           <>
-            <NewsCroupComponent />
+            <BodyComponent />
             <PaginationComponent />
           </>
         } />
-        <Route path="/:q" element={
+        <Route path="/news-app/:q" element={
           <>
-            <NewsCroupComponent />
+            <BodyComponent />
             <PaginationComponent />
           </>
         } />
-        <Route path="/lang/:lang" element={
+        <Route path="/news-app/lang/:lang" element={
           <>
-            <NewsCroupComponent />
+            <BodyComponent />
             <PaginationComponent />
           </>
         } />
-        <Route path="/contact" element={<ContactComponent />} />
+        <Route path="/news-app/contact" element={<ContactComponent />} />
       </Routes>
       <ErrorModalComponent />
     </Container>
